@@ -1,6 +1,6 @@
 // 1. Import three js ke project
 import * as THREE from './three.js-master/build/three.module.js'
-
+import {OrbitControls} from './three.js-master/examples/jsm/controls/OrbitControls.js'
 // 2. Buat scene dari three js
 var scene = new THREE.Scene()
 
@@ -36,6 +36,14 @@ renderer.setClearColor("#303030")
 // domElement adalah sebuah canvas, renderer di gambar kedalam tag canvas
 document.body.appendChild(renderer.domElement)
 
+var controls = new OrbitControls(camera, renderer.domElement)
+controls.update()
+// var onMouseMove = (e) => {
+//     console.log(e)
+// }
+
+// window.addEventListener("mousemove", onMouseMove)
+
 var lighting = () => {
     var pointLight = new THREE.PointLight(0xFFFFFF, 1.5, 100)
     pointLight.position.set(0,0,0)
@@ -57,7 +65,8 @@ var planet = () => {
     var mesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
     mesh.position.set(15, 5, 10)
     mesh.receiveShadow = true
-    scene.add(mesh)
+    return mesh
+    
 }
 
 var ring = () => {
@@ -66,10 +75,10 @@ var ring = () => {
     var torusMaterial = new THREE.MeshLambertMaterial()
     torusMaterial.map = texture
     var mesh = new THREE.Mesh(torusGeometry, torusMaterial)
-    mesh.position.set(15, 5, 10)
+    // mesh.position.set(15, 5, 10)
     mesh.rotation.set(20, 0, 0)
     mesh.castShadow = true
-    scene.add(mesh)
+    return mesh
 }
 
 var sun = () => {
@@ -82,7 +91,7 @@ var sun = () => {
     var mesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
     mesh.position.set(0, 0, 0)
     mesh.receiveShadow = true
-    scene.add(mesh)
+    return mesh
 }
 
 var Meteor = () => {
@@ -97,20 +106,22 @@ var Meteor = () => {
     var BigMeteor = new THREE.Mesh(BigMeteorGeometry, DodecahedronMaterial)
     BigMeteor.receiveShadow = true
     BigMeteor.position.set(-31, 5, 10)
-    scene.add(BigMeteor)
+    
 
     var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 4; i++) {
         var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
         SmallMeteor.receiveShadow = true
-        if ( i % 2 ==0){
-            SmallMeteor.position.set(i*2, i*-0.1, i*3)
+        if ( i < 2){
+            SmallMeteor.position.set(i*2, 3, 0)
         }
         else{
-            SmallMeteor.position.set(i*-0.5, i*-0.5, i*-4)
+            SmallMeteor.position.set(i*-1, -3, 0)
         }
-        BigMeteor.add(SmallMeteor)
+        
+        BigMeteor.add(SmallMeteor)   
     }
+    return BigMeteor
 }
 
 var text = () => {
@@ -146,8 +157,27 @@ var object = () => {
 }
 
 
-var render = () => {
 
+
+
+
+
+var Sun = sun()
+scene.add(Sun)
+
+var ENPlanet = planet()
+Sun.add(ENPlanet)
+
+var ENRing = ring()
+ENPlanet.add(ENRing)
+
+var meteor = Meteor()
+Sun.add(meteor)
+
+var render = () => {
+    Sun.rotation.y += 0.02
+    ENPlanet.rotation.y += 0.01    
+    controls.update()
     requestAnimationFrame(render)
     renderer.render(scene, camera)
 }
