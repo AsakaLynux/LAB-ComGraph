@@ -44,6 +44,67 @@ controls.update()
 
 // window.addEventListener("mousemove", onMouseMove)
 
+// scene.background = new THREE.CubeTextureLoader()
+// 	.setPath( 'assets/skybox/' )
+// 	.load( [
+//         'left.png',
+//         'right.png',
+//         'up.png',
+//         'down.png',
+//         'front.png',
+//         'back.png'
+// 	] );
+
+var skyBoxGeometry = new THREE.BoxGeometry(1000,1000,1000);
+
+var textureLoader =  new THREE.TextureLoader()
+
+var skyboxMaterial = [
+    //+x
+    new THREE.MeshBasicMaterial({
+        map: textureLoader.load('./assets/skybox/left.png'),
+        side:  THREE.DoubleSide
+    }),
+
+    //-x
+    new THREE.MeshBasicMaterial({
+        map: textureLoader.load('./assets/skybox/right.png'),
+        side:  THREE.DoubleSide
+
+    }),
+
+    //+y
+    new THREE.MeshBasicMaterial({
+        map: textureLoader.load('./assets/skybox/up.png'),
+        side:  THREE.DoubleSide
+
+    }),
+
+    //-y
+    new THREE.MeshBasicMaterial({
+        map: textureLoader.load('./assets/skybox/down.png'),
+        side:  THREE.DoubleSide
+
+    }),
+
+    //+z
+    new THREE.MeshBasicMaterial({
+        map: textureLoader.load('./assets/skybox/front.png'),
+        side:  THREE.DoubleSide
+
+    }),
+
+    //-z
+    new THREE.MeshBasicMaterial({
+        map: textureLoader.load('./assets/skybox/back.png'),
+        side:  THREE.DoubleSide
+
+    })
+]
+
+var skybox = new THREE.Mesh(skyBoxGeometry, skyboxMaterial)
+scene.add(skybox)
+    
 var lighting = () => {
     var pointLight = new THREE.PointLight(0xFFFFFF, 1.5, 100)
     pointLight.position.set(0,0,0)
@@ -55,6 +116,7 @@ var lighting = () => {
     pointLight.castShadow = true
     scene.add(spotLight)
 }
+
 var planet = () => {
     var texture = new THREE.TextureLoader().load("assets/texture/saturn/saturn.jpg")
     var sphereGeometry = new THREE.SphereGeometry(2.3, 32, 32)
@@ -94,7 +156,7 @@ var sun = () => {
     return mesh
 }
 
-var Meteor = () => {
+var bigMeteor = () => {
     var texture = new THREE.TextureLoader().load("assets/texture/saturn/saturn.jpg")
     var BigMeteorGeometry = new THREE.DodecahedronGeometry(1.5, 0)
     var DodecahedronMaterial = new THREE.MeshPhongMaterial()
@@ -106,61 +168,103 @@ var Meteor = () => {
     var BigMeteor = new THREE.Mesh(BigMeteorGeometry, DodecahedronMaterial)
     BigMeteor.receiveShadow = true
     BigMeteor.position.set(-31, 5, 10)
-    
 
-    var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
-    for (var i = 0; i < 4; i++) {
-        var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
-        SmallMeteor.receiveShadow = true
-        if ( i < 2){
-            SmallMeteor.position.set(i*2, 3, 0)
-        }
-        else{
-            SmallMeteor.position.set(i*-1, -3, 0)
-        }
-        
-        BigMeteor.add(SmallMeteor)   
-    }
     return BigMeteor
 }
 
-var text = () => {
-    const loader = new FontLoader();
+var smallMeteor1 = () => {
+    var texture = new THREE.TextureLoader().load("assets/texture/saturn/saturn.jpg")
+    var DodecahedronMaterial = new THREE.MeshPhongMaterial()
+    DodecahedronMaterial.map = texture
+    DodecahedronMaterial.bumpMap = texture
+    DodecahedronMaterial.shininess = 30
+    DodecahedronMaterial.transparent= true
 
-    loader.load( 'fonts/gentilis_bold.typeface.json', function (font) {
-
-	const geometry = new THREE.TextGeometry( 'Hello three.js!', {
-		font: font,
-		size: 80,
-		height: 5
-	} );
-
-    var textMaterial = new THREE.MeshBasicMaterial({
-        color: "0xE2C886"
-    })
-
-    var txt = new THREE.Mesh(geometry, textMaterial)
-    txt.position.set(-1, 18, 0)
-    scene.add(txt)
-} );
-
-
-    
+    var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
+    var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
+    SmallMeteor.receiveShadow = true
+    SmallMeteor.position.set(0, 3, 0)
+    return SmallMeteor
 }
+
+var smallMeteor2 = () => {
+    var texture = new THREE.TextureLoader().load("assets/texture/saturn/saturn.jpg")
+    var DodecahedronMaterial = new THREE.MeshPhongMaterial()
+    DodecahedronMaterial.map = texture
+    DodecahedronMaterial.bumpMap = texture
+    DodecahedronMaterial.shininess = 30
+    DodecahedronMaterial.transparent= true
+
+    var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
+    var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
+    SmallMeteor.receiveShadow = true
+    SmallMeteor.position.set(0, -3, 0)
+    return SmallMeteor
+}
+
+var smallMeteor3 = () => {
+    var texture = new THREE.TextureLoader().load("assets/texture/saturn/saturn.jpg")
+    var DodecahedronMaterial = new THREE.MeshPhongMaterial()
+    DodecahedronMaterial.map = texture
+    DodecahedronMaterial.bumpMap = texture
+    DodecahedronMaterial.shininess = 30
+    DodecahedronMaterial.transparent= true
+
+    var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
+    var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
+    SmallMeteor.receiveShadow = true
+    SmallMeteor.position.set(-3, 1, 0)
+    return SmallMeteor
+}
+
+var smallMeteor4 = () => {
+    var texture = new THREE.TextureLoader().load("assets/texture/saturn/saturn.jpg")
+    var DodecahedronMaterial = new THREE.MeshPhongMaterial()
+    DodecahedronMaterial.map = texture
+    DodecahedronMaterial.bumpMap = texture
+    DodecahedronMaterial.shininess = 30
+    DodecahedronMaterial.transparent= true
+    
+    var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
+    var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
+    SmallMeteor.receiveShadow = true
+    SmallMeteor.position.set(-4, -3, 0)
+    return SmallMeteor
+}
+
+// var text = () => {
+//     const loader = new FontLoader();
+
+//     loader.load( 'fonts/gentilis_bold.typeface.json', function (font) {
+
+// 	const geometry = new THREE.TextGeometry( 'Hello three.js!', {
+// 		font: font,
+// 		size: 80,
+// 		height: 5
+// 	} );
+
+//     var textMaterial = new THREE.MeshBasicMaterial({
+//         color: "0xE2C886"
+//     })
+
+//     var txt = new THREE.Mesh(geometry, textMaterial)
+//     txt.position.set(-1, 18, 0)
+//     scene.add(txt)
+// } );
+    
+// }
 
 var object = () => {
     planet()
     ring()
     sun()
     // text()
-    Meteor()
+    bigMeteor()
+    smallMeteor1()
+    smallMeteor2()
+    smallMeteor3()
+    smallMeteor4()
 }
-
-
-
-
-
-
 
 var Sun = sun()
 scene.add(Sun)
@@ -171,8 +275,43 @@ Sun.add(ENPlanet)
 var ENRing = ring()
 ENPlanet.add(ENRing)
 
-var meteor = Meteor()
-Sun.add(meteor)
+var bigmeteor = bigMeteor()
+Sun.add(bigmeteor)
+
+var smallmeteor1 = smallMeteor1()
+bigmeteor.add(smallmeteor1)
+
+var smallmeteor2 = smallMeteor2()
+bigmeteor.add(smallmeteor2)
+
+var smallmeteor3 = smallMeteor3()
+bigmeteor.add(smallmeteor3)
+
+var smallmeteor4 = smallMeteor4()
+bigmeteor.add(smallmeteor4)
+
+var onMouseClick = (e) => {
+    var mouse = new THREE.Vector2()
+
+    mouse.x = (e.clientX / window.innerWidth)*2-1
+    mouse.y = -(e.clientY / window.innerHeight)*2+1
+
+    console.log(`Client X : ${mouse.x}, Client Y: ${mouse.y}`)
+
+    var raycaster = new THREE.Raycaster()
+
+    raycaster.setFromCamera(mouse, camera)
+
+    var intersected = raycaster.intersectObjects(scene.children)
+
+    if(intersected.length>0){
+        intersected[0].object.material.transparent= true;
+        intersected[0].object.material.opacity= 0;
+    }
+    
+}
+
+window.addEventListener('mousedown', onMouseClick)
 
 var render = () => {
     Sun.rotation.y += 0.02
