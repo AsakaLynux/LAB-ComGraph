@@ -1,10 +1,18 @@
 // 1. Import three js ke project
 import * as THREE from './three.js-master/build/three.module.js'
-import {OrbitControls} from './three.js-master/examples/jsm/controls/OrbitControls.js'
+import {
+    OrbitControls
+} from './three.js-master/examples/jsm/controls/OrbitControls.js'
 //Tambah fontloader dll
-import {FontLoader} from './three.js-master/examples/jsm/loaders/FontLoader.js'
-import {TextGeometry} from './three.js-master/examples/jsm/geometries/TextGeometry.js'
-import {GLTFLoader} from './three.js-master/examples/jsm/loaders/GLTFLoader.js'
+import {
+    FontLoader
+} from './three.js-master/examples/jsm/loaders/FontLoader.js'
+import {
+    TextGeometry
+} from './three.js-master/examples/jsm/geometries/TextGeometry.js'
+import {
+    GLTFLoader
+} from './three.js-master/examples/jsm/loaders/GLTFLoader.js'
 
 // 2. Buat scene dari three js
 var scene = new THREE.Scene()
@@ -47,72 +55,59 @@ controls.update()
 //     console.log(e)
 // }
 
-// window.addEventListener("mousemove", onMouseMove)
+var skyBoxGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
 
-// scene.background = new THREE.CubeTextureLoader()
-// 	.setPath( 'assets/skybox/' )
-// 	.load( [
-//         'left.png',
-//         'right.png',
-//         'up.png',
-//         'down.png',
-//         'front.png',
-//         'back.png'
-// 	] );
-
-var skyBoxGeometry = new THREE.BoxGeometry(1000,1000,1000);
-
-var textureLoader =  new THREE.TextureLoader()
+var textureLoader = new THREE.TextureLoader()
 
 var skyboxMaterial = [
     //+x
     new THREE.MeshBasicMaterial({
         map: textureLoader.load('./assets/skybox/left.png'),
-        side:  THREE.DoubleSide
+        side: THREE.DoubleSide
     }),
 
     //-x
     new THREE.MeshBasicMaterial({
         map: textureLoader.load('./assets/skybox/right.png'),
-        side:  THREE.DoubleSide
+        side: THREE.DoubleSide
 
     }),
 
     //+y
     new THREE.MeshBasicMaterial({
         map: textureLoader.load('./assets/skybox/up.png'),
-        side:  THREE.DoubleSide
+        side: THREE.DoubleSide
 
     }),
 
     //-y
     new THREE.MeshBasicMaterial({
         map: textureLoader.load('./assets/skybox/down.png'),
-        side:  THREE.DoubleSide
+        side: THREE.DoubleSide
 
     }),
 
     //+z
     new THREE.MeshBasicMaterial({
         map: textureLoader.load('./assets/skybox/front.png'),
-        side:  THREE.DoubleSide
+        side: THREE.DoubleSide
 
     }),
 
     //-z
     new THREE.MeshBasicMaterial({
         map: textureLoader.load('./assets/skybox/back.png'),
-        side:  THREE.DoubleSide
+        side: THREE.DoubleSide
 
     })
 ]
 
 var skybox = new THREE.Mesh(skyBoxGeometry, skyboxMaterial)
 scene.add(skybox)
-    
+
 var lighting = () => {
     var pointLight = new THREE.PointLight(0xFFFFFF, 1.5, 100)
-    pointLight.position.set(0,0,0)
+    pointLight.position.set(0, 0, 0)
     pointLight.castShadow = true
     scene.add(pointLight)
 
@@ -120,7 +115,7 @@ var lighting = () => {
 
 var light = () => {
     var spotLight = new THREE.SpotLight(0xFFFFFF, 5, 50, Math.PI, 1)
-    spotLight.position.set(0,21,10)
+    spotLight.position.set(0, 21, 10)
     scene.add(spotLight)
 }
 
@@ -144,7 +139,7 @@ var planet = () => {
     mesh.position.set(15, 5, 10)
     mesh.receiveShadow = true
     return mesh
-    
+
 }
 
 var ring = () => {
@@ -179,8 +174,8 @@ var bigMeteor = () => {
     DodecahedronMaterial.map = texture
     DodecahedronMaterial.bumpMap = texture
     DodecahedronMaterial.shininess = 30
-    DodecahedronMaterial.transparent= true
-    
+    DodecahedronMaterial.transparent = true
+
     var BigMeteor = new THREE.Mesh(BigMeteorGeometry, DodecahedronMaterial)
     BigMeteor.receiveShadow = true
     BigMeteor.position.set(-31, 5, 10)
@@ -193,7 +188,7 @@ var smallMeteor1 = () => {
     DodecahedronMaterial.map = texture
     DodecahedronMaterial.bumpMap = texture
     DodecahedronMaterial.shininess = 30
-    DodecahedronMaterial.transparent= true
+    DodecahedronMaterial.transparent = true
 
     var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
     var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
@@ -208,7 +203,7 @@ var smallMeteor2 = () => {
     DodecahedronMaterial.map = texture
     DodecahedronMaterial.bumpMap = texture
     DodecahedronMaterial.shininess = 30
-    DodecahedronMaterial.transparent= true
+    DodecahedronMaterial.transparent = true
 
     var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
     var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
@@ -223,7 +218,7 @@ var smallMeteor3 = () => {
     DodecahedronMaterial.map = texture
     DodecahedronMaterial.bumpMap = texture
     DodecahedronMaterial.shininess = 30
-    DodecahedronMaterial.transparent= true
+    DodecahedronMaterial.transparent = true
 
     var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
     var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
@@ -238,8 +233,8 @@ var smallMeteor4 = () => {
     DodecahedronMaterial.map = texture
     DodecahedronMaterial.bumpMap = texture
     DodecahedronMaterial.shininess = 30
-    DodecahedronMaterial.transparent= true
-    
+    DodecahedronMaterial.transparent = true
+
     var SmallMeteorGeometry = new THREE.DodecahedronGeometry(0.5, 0)
     var SmallMeteor = new THREE.Mesh(SmallMeteorGeometry, DodecahedronMaterial)
     SmallMeteor.receiveShadow = true
@@ -248,34 +243,43 @@ var smallMeteor4 = () => {
 }
 
 // Load 3D
-let model;
+
+let model
+
 
 new GLTFLoader().load('assets/model/scene.gltf', (loadedModel) => {
     model = loadedModel.scene;
     model.position.set(0, 15, 0)
     model.scale.set(1, 1, 1)
-    scene.add(model);
+    scene.add(model)
+
+    // Bikin text
+    var createText = () => {
+        const loader = new FontLoader();
+
+        loader.load('./three.js-master/examples/fonts/gentilis_bold.typeface.json', function (font) {
+
+            const geometry = new TextGeometry('UFO', {
+                font: font,
+                size: 1,
+                height: 1
+            })
+            const material = new THREE.MeshBasicMaterial({
+                color: "0xE2C886"
+            })
+            const textMesh = new THREE.Mesh(geometry, material)
+            textMesh.position.set(-1,4, 0)
+            model.add(textMesh)
+        })
+    }
+
+    createText()
 });
 
-// Bikin text
-var createText = () => {
-    const loader = new FontLoader();
 
-    loader.load( './three.js-master/examples/fonts/gentilis_bold.typeface.json', function ( font ) {
-    
-        const geometry = new TextGeometry( 'UFO', {
-            font: font,
-            size: 1,
-            height: 1
-        } )
-        const material = new THREE.MeshBasicMaterial({
-            color: "0xE2C886"
-        })
-        const textMesh = new THREE.Mesh(geometry, material)
-        textMesh.position.set(-1, 18, 0)
-        scene.add(textMesh)
-    } )
-}
+
+
+
 
 //Movement 3D
 var movement = (e) => {
@@ -284,7 +288,7 @@ var movement = (e) => {
             //w
             model.position.y += 1
             break;
-    
+
         case 65:
             //a
             model.position.x -= 1
@@ -294,7 +298,7 @@ var movement = (e) => {
             //s
             model.position.y -= 1
             break;
-    
+
         case 68:
             //d
             model.position.x += 1
@@ -309,7 +313,6 @@ var object = () => {
     planet()
     ring()
     sun()
-    // text()
     bigMeteor()
     smallMeteor1()
     smallMeteor2()
@@ -344,8 +347,8 @@ bigmeteor.add(smallmeteor4)
 var onMouseClick = (e) => {
     var mouse = new THREE.Vector2()
 
-    mouse.x = (e.clientX / window.innerWidth)*2-1
-    mouse.y = -(e.clientY / window.innerHeight)*2+1
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
 
     console.log(`Client X : ${mouse.x}, Client Y: ${mouse.y}`)
 
@@ -355,21 +358,21 @@ var onMouseClick = (e) => {
 
     var intersected = raycaster.intersectObjects(scene.children)
 
-    if(intersected.length>0){
-        intersected[0].object.material.transparent= true;
-        intersected[0].object.material.opacity= 0;
+    if (intersected.length > 0) {
+        intersected[0].object.material.transparent = true;
+        intersected[0].object.material.opacity = 0;
     }
-    
+
 }
 
-window.addEventListener('mousedown', onMouseClick)
+// window.addEventListener('mousedown', onMouseClick)
 
 // var text = createText()
 // model.add(text)
 
 var render = () => {
     Sun.rotation.y += 0.01
-    ENPlanet.rotation.y += 0.01    
+    ENPlanet.rotation.y += 0.01
     controls.update()
     requestAnimationFrame(render)
     renderer.render(scene, camera)
@@ -381,5 +384,5 @@ light()
 // spotlight()
 object()
 
-createText()
+
 render()
