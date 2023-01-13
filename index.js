@@ -358,20 +358,23 @@ var onMouseClick = (e) => {
 
     var intersected = raycaster.intersectObjects(scene.children)
 
+    // console.log(intersected)
     if (intersected.length > 0) {
-        intersected[0].object.material.transparent = true;
-        intersected[0].object.material.opacity = 0;
+        console.log(intersected[0])
+        console.log(intersected[1])
+        // console.log(intersected[2])
+        console.log(intersected.length)
+        // intersected[0].object.material.transparent = true;
+        // intersected[0].object.material.opacity = 0;
     }
 
 }
 
-// window.addEventListener('mousedown', onMouseClick)
+window.addEventListener('mousedown', onMouseClick)
 
-// var text = createText()
-// model.add(text)
 
 var render = () => {
-    Sun.rotation.y += 0.01
+    // Sun.rotation.y += 0.01
     ENPlanet.rotation.y += 0.01
     controls.update()
     requestAnimationFrame(render)
