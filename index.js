@@ -1,6 +1,11 @@
 // 1. Import three js ke project
 import * as THREE from './three.js-master/build/three.module.js'
 import {OrbitControls} from './three.js-master/examples/jsm/controls/OrbitControls.js'
+//Tambah fontloader dll
+import {FontLoader} from './three.js-master/examples/jsm/loaders/FontLoader.js'
+import {TextGeometry} from './three.js-master/examples/jsm/geometries/TextGeometry.js'
+import {GLTFLoader} from './three.js-master/examples/jsm/loaders/GLTFLoader.js'
+
 // 2. Buat scene dari three js
 var scene = new THREE.Scene()
 
@@ -50,11 +55,21 @@ var lighting = () => {
     pointLight.castShadow = true
     scene.add(pointLight)
 
+}
+
+var light = () => {
     var spotLight = new THREE.SpotLight(0xFFFFFF, 5, 50, Math.PI, 1)
     spotLight.position.set(0,21,10)
-    pointLight.castShadow = true
     scene.add(spotLight)
 }
+
+// var spotlight = () => {
+//     var spotLight = new THREE.SpotLight(0xFFFFFF, 5, 50, Math.PI, 1)
+//     spotLight.position.set(0,21,10)
+//     pointLight.castShadow = true
+//     scene.add(spotLight)
+// }
+
 var planet = () => {
     var texture = new THREE.TextureLoader().load("assets/texture/saturn/saturn.jpg")
     var sphereGeometry = new THREE.SphereGeometry(2.3, 32, 32)
@@ -124,29 +139,63 @@ var Meteor = () => {
     return BigMeteor
 }
 
-var text = () => {
+// Load 3D
+let model;
+
+new GLTFLoader().load('assets/model/scene.gltf', (loadedModel) => {
+    model = loadedModel.scene;
+    model.position.set(0, 15, 0)
+    model.scale.set(1, 1, 1)
+    scene.add(model);
+});
+
+// Bikin text
+var createText = () => {
     const loader = new FontLoader();
 
-    loader.load( 'fonts/gentilis_bold.typeface.json', function (font) {
-
-	const geometry = new THREE.TextGeometry( 'Hello three.js!', {
-		font: font,
-		size: 80,
-		height: 5
-	} );
-
-    var textMaterial = new THREE.MeshBasicMaterial({
-        color: "0xE2C886"
-    })
-
-    var txt = new THREE.Mesh(geometry, textMaterial)
-    txt.position.set(-1, 18, 0)
-    scene.add(txt)
-} );
-
-
+    loader.load( './three.js-master/examples/fonts/gentilis_bold.typeface.json', function ( font ) {
     
+        const geometry = new TextGeometry( 'UFO', {
+            font: font,
+            size: 1,
+            height: 1
+        } )
+        const material = new THREE.MeshBasicMaterial({
+            color: "0xE2C886"
+        })
+        const textMesh = new THREE.Mesh(geometry, material)
+        textMesh.position.set(-1, 18, 0)
+        scene.add(textMesh)
+    } )
 }
+
+//Movement 3D
+var movement = (e) => {
+    switch (e.keyCode) {
+        case 87:
+            //w
+            model.position.y += 1
+            break;
+    
+        case 65:
+            //a
+            model.position.x -= 1
+            break;
+
+        case 83:
+            //s
+            model.position.y -= 1
+            break;
+    
+        case 68:
+            //d
+            model.position.x += 1
+            break;
+    }
+}
+
+window.addEventListener("keydown", movement)
+
 
 var object = () => {
     planet()
@@ -174,6 +223,9 @@ ENPlanet.add(ENRing)
 var meteor = Meteor()
 Sun.add(meteor)
 
+// var text = createText()
+// model.add(text)
+
 var render = () => {
     Sun.rotation.y += 0.01
     ENPlanet.rotation.y += 0.01    
@@ -184,5 +236,8 @@ var render = () => {
 
 // Jangan lupa di panggil functionnya :)
 lighting()
+light()
+// spotlight()
 object()
+createText()
 render()
