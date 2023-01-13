@@ -175,7 +175,7 @@ var meteor = Meteor()
 Sun.add(meteor)
 
 var render = () => {
-    Sun.rotation.y += 0.02
+    Sun.rotation.y += 0.01
     ENPlanet.rotation.y += 0.01    
     controls.update()
     requestAnimationFrame(render)
